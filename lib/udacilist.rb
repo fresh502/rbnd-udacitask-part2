@@ -7,12 +7,26 @@ class UdaciList
   end
   def add(type, description, options={})
     type = type.downcase
-    @items.push TodoItem.new(description, options) if type == "todo"
-    @items.push EventItem.new(description, options) if type == "event"
-    @items.push LinkItem.new(description, options) if type == "link"
+    case type
+      when "todo"
+        if options[:priority]
+          raise UdaciListErrors::InvalidPriorityValue, "This priority value is invalid" unless ["low", "medium", "high"].include? options[:priority]
+        end
+        @items.push TodoItem.new(description, options)
+      when "event"
+        @items.push EventItem.new(description, options)
+      when "link"
+        @items.push LinkItem.new(description, options)
+      else
+        raise UdaciListErrors::InvalidItemType, "This type is invalid"
+    end
   end
   def delete(index)
-    @items.delete_at(index - 1)
+    if index > @items.size
+      raise UdaciListErrors::IndexExceedsListSize, "This index exceeds list size"
+    else
+      @items.delete_at(index - 1)
+    end
   end
   def all
     puts "-" * @title.length
