@@ -31,10 +31,22 @@ class UdaciList
   def all
     rows = []
     @items.each_with_index do |item, position|
-      row = ["#{position + 1}) #{item.details}"]
+      row = ["#{position + 1}) #{item.class.name.downcase.gsub('item', '')} : #{item.details}"]
       rows << row
     end
-    table  = Terminal::Table.new title: @title, rows: rows
+    table = Terminal::Table.new title: @title, rows: rows
+    puts table
+  end
+  def filter(type)
+    rows = []
+    @items.each_with_index do |item, position|
+      if item.class.name.downcase.include? type
+        row = ["#{position + 1}) #{item.class.name.downcase.gsub('item', '')} : #{item.details}"]
+        rows << row
+      end
+    end
+    rows << ["There aren't any items of #{type} type"] if rows.size == 0
+    table = Terminal::Table.new title: @title, rows: rows
     puts table
   end
 end
