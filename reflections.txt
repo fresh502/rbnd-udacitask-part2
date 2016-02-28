@@ -1,13 +1,19 @@
 # What you added to Udacitask 2.0
 # -------------------------------------------------------
 1. What is the gem of your choice and how did you use it?
+ I choose terminal-table gem. I used it to generate table which include the list.
 2. Describe the 2 features you added to the project.
-  a) Feature 1...
-  b) Feature 2...
+  a) deletion of multiple items
+  b) change of the priority of the item
 
 # REFLECTIONS
 # -------------------------------------------------------
 1. How long did you spend working on this project?
+	I spent approximately 3 hours.
 2. What was the most rewarding challenge you conquered?
+	It was the most rewarding to move similar methos to one module.
 3. What two additional features did you build? Why?
+	I built two additional features. One is deletion of multiple items. Another is change of the priority the item.
+	I thought real users would need the features frequently.
 4. Where do you still have room to grow?
+	I think there is a way to move detail method to module.
