@@ -21,11 +21,10 @@ class UdaciList
         raise UdaciListErrors::InvalidItemType, "This type is invalid"
     end
   end
-  def delete(index)
-    if index > @items.size
-      raise UdaciListErrors::IndexExceedsListSize, "This index exceeds list size"
-    else
-      @items.delete_at(index - 1)
+  def delete(*indices)
+    indices.sort.reverse.each do |index|
+      raise UdaciListErrors::IndexExceedsListSize, "These indices inlude the index which exceeds list size" if index > @items.size
+      @items.delete_at(index-1)
     end
   end
   def all

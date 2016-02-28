@@ -20,6 +20,8 @@ list.add("link", "https://github.com", site_name: "GitHub Homepage")
 list.all
 list.delete(3)
 list.all
+list.delete(1,5)
+list.all
 
 # SHOULD CREATE AN UNTITLED LIST AND ADD ITEMS TO IT
 # --------------------------------------------------
