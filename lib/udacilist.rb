@@ -21,6 +21,10 @@ class UdaciList
         raise UdaciListErrors::InvalidItemType, "This type is invalid"
     end
   end
+  def change_priority(index, priority)
+    raise UdaciListErrors::IncorrectItemType, "This item is not todo" unless @items[index-1].class.name.downcase.include? "todo"
+    @items[index-1].priority = priority
+  end
   def delete(*indices)
     indices.sort.reverse.each do |index|
       raise UdaciListErrors::IndexExceedsListSize, "These indices inlude the index which exceeds list size" if index > @items.size
