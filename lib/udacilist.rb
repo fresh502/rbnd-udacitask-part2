@@ -6,24 +6,25 @@ class UdaciList
     @items = []
   end
   def add(type, description, options={})
-    type = type.downcase
-    case type
-      when "todo"
-        if options[:priority]
-          raise UdaciListErrors::InvalidPriorityValue, "This priority value is invalid" unless ["low", "medium", "high"].include? options[:priority]
-        end
-        @items.push TodoItem.new(description, options)
-      when "event"
-        @items.push EventItem.new(description, options)
-      when "link"
-        @items.push LinkItem.new(description, options)
+    types = {todo: TodoItem, event: EventItem, link: LinkItem}
+    if types[type.to_sym] == nil
+      raise UdaciListErrors::InvalidItemType, "This type is invalid"
+    else
+      if options[:priority] && !(["low", "medium", "high"].include? options[:priority])
+        raise UdaciListErrors::InvalidPriorityValue, "This priority value is invalid"
       else
-        raise UdaciListErrors::InvalidItemType, "This type is invalid"
+        @items << types[type.to_sym].new(description, options)
+      end
     end
   end
   def change_priority(index, priority)
-    raise UdaciListErrors::IncorrectItemType, "This item is not todo" unless @items[index-1].class.name.downcase.include? "todo"
-    @items[index-1].priority = priority
+    if @items[index-1].respond_to? :priority
+      @items[index-1].priority = priority
+    else
+      raise UdaciListErrors::IncorrectItemType, "This item is not todo"
+    end
+     #unless @items[index-1].class.name.downcase.include? "todo"
+
   end
   def delete(*indices)
     indices.sort.reverse.each do |index|
